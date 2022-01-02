@@ -1,5 +1,7 @@
 package com.example.restfulwebservice.user;
 
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.List;
 /**
  * `DAO`가 특별히 하는 것이 없으므로, `Service`와 통합 
  */
+@Service
 public class UserDaoService {
     private static List<User> users = new ArrayList<>();
     private static int usersCount;
