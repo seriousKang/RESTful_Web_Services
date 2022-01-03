@@ -48,4 +48,12 @@ public class UserController {
         // 201(`CREATED`) 상태 코드 설정
         return ResponseEntity.created(location).build();
     }
+
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable int id) {
+        User deletedUser = userDaoService.deleteById(id);
+        if(deletedUser == null) {
+            throw new UserNotFoundException(String.format("ID[%s] not found", id));
+        }
+    }
 }
