@@ -24,7 +24,13 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public User retrieveUser(@PathVariable int id) {
-        return userDaoService.findOne(id);
+        User foundUser = userDaoService.findOne(id);
+
+        if(foundUser == null) {
+            throw new UserNotFoundException(String.format("ID[%s] not found", id));
+        }
+
+        return foundUser;
     }
 
     @PostMapping("/users")
@@ -39,6 +45,7 @@ public class UserController {
                 .buildAndExpand(savedUser.getId())
                 .toUri();
 
+        // 201(`CREATED`) 상태 코드 설정
         return ResponseEntity.created(location).build();
     }
 }
