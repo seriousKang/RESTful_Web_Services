@@ -16,9 +16,9 @@ public class UserDaoService {
     private static int usersCount;
 
     static {
-        users.add(new User(1, "Kenneth", new Date()));
-        users.add(new User(2, "Alice", new Date()));
-        users.add(new User(3, "Elena", new Date()));
+        users.add(new User(1, "Kenneth", new Date(), "pwd1", "111-111"));
+        users.add(new User(2, "Alice", new Date(), "pwd2", "222-222"));
+        users.add(new User(3, "Elena", new Date(), "pwd3", "333-333"));
 
         usersCount = users.size();
     }
