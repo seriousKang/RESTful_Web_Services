@@ -20,8 +20,16 @@ public class AdminUserController {
     }
 
     @GetMapping("/users")
-    public List<User> retrieveAllUsers() {
-        return userDaoService.findAll();
+    public MappingJacksonValue retrieveAllUsers() {
+        List<User> users = userDaoService.findAll();
+
+        SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("id", "name", "joinDate", "ssn");
+        FilterProvider filterProvider = new SimpleFilterProvider().addFilter("UserInfo", filter);
+
+        MappingJacksonValue jacksonValue = new MappingJacksonValue(users);
+        jacksonValue.setFilters(filterProvider);
+
+        return jacksonValue;
     }
 
     @GetMapping("/users/{id}")
