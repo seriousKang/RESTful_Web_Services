@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,8 +33,8 @@ public class AdminUserController {
         return jacksonValue;
     }
 
-    @GetMapping("/users/{id}")
-    public MappingJacksonValue retrieveUser(@PathVariable int id) {
+    @GetMapping("/v1/users/{id}")
+    public MappingJacksonValue retrieveUserV1(@PathVariable int id) {
         User foundUser = userDaoService.findOne(id);
 
         if(foundUser == null) {
@@ -45,6 +46,29 @@ public class AdminUserController {
         FilterProvider filterProvider = new SimpleFilterProvider().addFilter("UserInfo", filter);
 
         MappingJacksonValue jacksonValue = new MappingJacksonValue(foundUser);
+        jacksonValue.setFilters(filterProvider);
+
+        return jacksonValue;
+    }
+
+    @GetMapping("/v2/users/{id}")
+    public MappingJacksonValue retrieveUserV2(@PathVariable int id) {
+        User foundUser = userDaoService.findOne(id);
+
+        if(foundUser == null) {
+            throw new UserNotFoundException(String.format("ID[%s] not found", id));
+        }
+
+        // User → UserV2
+        UserV2 userV2 = new UserV2();
+        BeanUtils.copyProperties(foundUser, userV2);
+        userV2.setGrade("VIP");
+
+        // 지정된 필드만 JSON 반환
+        SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("id", "name", "joinDate", "grade");
+        FilterProvider filterProvider = new SimpleFilterProvider().addFilter("UserInfoV2", filter);
+
+        MappingJacksonValue jacksonValue = new MappingJacksonValue(userV2);
         jacksonValue.setFilters(filterProvider);
 
         return jacksonValue;
