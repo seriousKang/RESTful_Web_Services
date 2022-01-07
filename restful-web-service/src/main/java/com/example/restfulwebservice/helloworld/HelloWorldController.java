@@ -32,11 +32,11 @@ public class HelloWorldController {
     @GetMapping("/hello-world-bean/path-variable/{name}")
     public HelloWorldBean helloWorldBean(@PathVariable String name) {
         return new HelloWorldBean(String.format("hello, %s world!", name));
-    }@GetMapping("/hello-world-i18n")
+    }
+
+    @GetMapping("/hello-world-i18n")
     public String helloWorldI18n(@RequestHeader(name="Accept-Language", required = false) Locale locale) {
         log.info("locale = {}", locale);
         return ms.getMessage("greeting.message", null, locale);
     }
-
-
 }
