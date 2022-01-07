@@ -1,6 +1,8 @@
 package com.example.restfulwebservice.user;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -24,14 +26,22 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public User retrieveUser(@PathVariable int id) {
+    public ResponseEntity<EntityModel<User>> retrieveUser(@PathVariable int id) {
         User foundUser = userDaoService.findOne(id);
 
         if(foundUser == null) {
             throw new UserNotFoundException(String.format("ID[%s] not found", id));
         }
 
-        return foundUser;
+        // HATEOAS
+        // WebMvcLinkBuilder 메소드 호출 부분은 static method import로 간소화 가능
+        EntityModel entityModel = EntityModel.of(foundUser);
+        WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(this.getClass()).retrieveAllUsers()
+        );
+        entityModel.add(linkTo.withRel("all-users"));
+
+        return ResponseEntity.ok(entityModel);
     }
 
     @PostMapping("/users")

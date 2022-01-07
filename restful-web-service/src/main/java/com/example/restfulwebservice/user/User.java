@@ -12,7 +12,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonFilter("UserInfo") // 필터 ID
+//@JsonFilter("UserInfo") // 필터 ID
 public class User {
     private Integer id;
     @Size(min = 2, message = "Enter at least 2 characters.")
