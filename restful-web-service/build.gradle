@@ -30,9 +30,15 @@ dependencies {
 
 	// HATEOAS
 	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
+	// HAL Explorer
+	implementation 'org.springframework.data:spring-data-rest-hal-explorer'
 
-	// Swagger
-	implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
+	// Documentation
+//	implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.4'
+
+	// Actuator
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
 
 test {

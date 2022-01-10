@@ -1,3 +1,4 @@
+/*
 package com.example.restfulwebservice.config;
 
 import org.springframework.context.annotation.Bean;
@@ -32,3 +33,4 @@ public class SwaggerConfig {
                 .consumes(DEFAULT_PRODUCES_AND_CONSUMES);
     }
 }
+ */
