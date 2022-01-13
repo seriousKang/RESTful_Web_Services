@@ -11,9 +11,14 @@ spring:
 #  mvc:
 #    pathmatch:
 #      matching-strategy: ant_path_matcher
+  security:
+    user:
+      name: test
+      password: pwd
 
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+
